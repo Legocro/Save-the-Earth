@@ -22,7 +22,7 @@ namespace Main
 			Index = 0;
 			foreach (Building b in PollEnList)
 			{
-				PollEnList[Index].Panel = Lightning.CEnPanel;
+				PollEnList[Index].Panel = Lightning.PEnPanel;
 				PollEnList[Index].PowerBreakpoint = Breakpoints[Index]*1.2f;
 				Index++;
 			}

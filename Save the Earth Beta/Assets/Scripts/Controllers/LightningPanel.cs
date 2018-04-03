@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,7 @@ public class LightningPanel : MonoBehaviour {
 	public GameObject PEnPanel;
 	public GameObject PCPanel;
 	public GameObject Panel;
+	public Scrollbar Scroll;
 	private int Index = 0;
 	private Sprite[] Sprites;
 	private GameObject[] Panels;
@@ -33,6 +35,7 @@ public class LightningPanel : MonoBehaviour {
 	}
 	public void LeftClick()
 	{
+		Scroll.value = 1;
 		Panels[Index].SetActive(false);
 		Index = Index == 0 ? Sprites.Length - 1 : Index - 1;
 		Panel.GetComponent<Image>().sprite = Sprites[Index];
@@ -42,11 +45,22 @@ public class LightningPanel : MonoBehaviour {
 	}
 	public void RightClick()
 	{
+		Scroll.value = 1;
 		Panels[Index].SetActive(false);
 		Index = Index == Sprites.Length - 1 ? 0 : Index + 1;
 		Panel.GetComponent<Image>().sprite = Sprites[Index];
 		Panels[Index].SetActive(true);
 		CurrentPanel = Panels[Index];
 		FrameScript.UpdateScroll();
+	}
+	public void GoToPanel(GameObject TargetPanel)
+	{
+		Panels[Index].SetActive(false);
+		Index = Array.IndexOf(Panels, TargetPanel);
+		Panel.GetComponent<Image>().sprite = Sprites[Index];
+		Panels[Index].SetActive(true);
+		CurrentPanel = Panels[Index];
+		FrameScript.UpdateScroll();
+
 	}
 }

@@ -60,6 +60,14 @@ namespace Main
             {
                 DoubleMoneyButton.interactable = true;
             }
+            if (FrameScript.Power > 0)
+            {
+                SellPowerButton.interactable = true;
+            }
+            else
+            {
+                SellPowerButton.interactable = false;
+            }
         }
     }
 

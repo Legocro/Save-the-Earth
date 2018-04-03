@@ -15,7 +15,7 @@ namespace Main
         public Building[] CleanGens;
         public Building[] PollutionGens;
         public Building[] PollutionCleaners;
-        public GameObject ScrollView;
+        public GameObject Content;
         public Text Currencies;
         public Text EProduction;
         public Text Premium;
@@ -72,18 +72,11 @@ namespace Main
         private string PowerText;
         private string PowerProductionText;
         private string MoneyText;
-        private string SolarGeneratorsText;
-        private string SolarGeneratorCostText;
-        private string CoalGeneratorsText;
-        private string CoalGeneratorCostText;
         private string PollutionText;
-        private string PollutionReducersText;
-        private string PollutionReducersCostText;
         private string PremiumCurrencyText;
         private string DoubleMoneyCostText;
         private string MoneyConversionRateText;
         private string TimerText;
-        private string Temporary;
 
         // Initialization
         private void Awake() {
@@ -91,8 +84,7 @@ namespace Main
         }
         void Start()
         {
-            //InitButtons();
-            //InitValues();
+            BuildBuildings(PollutionGens[0], CleanGens[0]);
         }
 
         //  Update is called once per frame
@@ -173,14 +165,13 @@ namespace Main
             PremiumCurrency = 0;
             MaxPowerEarned = 0;
             PremiumConversionRate = 0.5f;
-            MinimumPowerFlag = 100f;
+            MinimumPowerFlag = 10000f;
             DoubleMoneyCost = 100;
             DoubleMoneyBought = false;
             MoneyConversionRate = 0.5f;
             ConvertUnlocked = false;
             CleanGens = Data.CleanEnList;
             PollutionGens = Data.PollEnList;
-            BuildBuilding(BuildingPrefab, CleanGens[0]);
       }
 
         void SetAllText()
@@ -193,33 +184,18 @@ namespace Main
             EProduction.text = string.Format("Energy per second: {0}", PowerProduction);
         }
 
-        /*void CheckCosts()
-        {
-            if (Power < MinimumPowerFlag * PremiumConversionRate || !ConvertUnlocked)
-            {
-                ConvertCurrencyButton.interactable = false;
-            }
-            else
-            {
-                ConvertCurrencyButton.interactable = true;
-            }
-            if (PremiumCurrency < DoubleMoneyCost)
-            {
-                DoubleMoneyButton.interactable = false;
-            }
-            else
-            {
-                DoubleMoneyButton.interactable = true;
-            }
-        }*/
         float GetTotalPowerProduction(Building[] CGens, Building[] PGens) 
         {
-            /*float production = 0;
+            float production = 0;
             foreach (Building b in CGens)
             {
                 production += b.Energy * b.Quantity;
-            }*/
-            return 10; //production;
+            }
+            foreach (Building b in PGens)
+            {
+                production += b.Energy * b.Quantity;
+            }
+            return production;
 
         }
         void UpdatePowerFlag()
@@ -242,20 +218,20 @@ namespace Main
 
         public void UpdateScroll()
         {
-            RectTransform ScrollTransform = ScrollView.GetComponent<RectTransform>();
+            RectTransform ScrollTransform = Content.GetComponent<RectTransform>();
             Rect ScrollRect = ScrollTransform.rect;
             int BuildingCounter = Counters[Panels.CurrentPanel.name];
             int Height = (int)ScrollRect.height;
-            int TotalBuildingPanelHeight = BuildingCounter * 135;
-            if (Height < TotalBuildingPanelHeight)
+            int TotalBuildingPanelHeight = BuildingCounter * 130;
+            if (640 < TotalBuildingPanelHeight)
             {
                // Panels.CEnPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(0 , ScrollRect.height+200);
                 IdkWhyThisHappens[Panels.CurrentPanel.name]++;
-                ScrollView.GetComponent<RectTransform>().sizeDelta = new Vector2(0, ScrollRect.height + 150);
+                Content.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 640 + 200 * (float)Math.Ceiling( (TotalBuildingPanelHeight-630) / 200d) );
             }
             else
             {
-                ScrollView.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 400 + 150 * IdkWhyThisHappens[Panels.CurrentPanel.name]);
+                Content.GetComponent<RectTransform>().sizeDelta = new Vector2(0, 640);
             }
         }
 
@@ -276,15 +252,28 @@ namespace Main
         {
             foreach (Building b in buildings)
             {
-               // BuildBuilding(BuildingPrefab, b);
+               BuildBuilding(BuildingPrefab, b);
             }
         }
 
-        public void BuildBuilding(GameObject b , Building Building)
+        public void BuildBuilding(GameObject Prefab , Building Building)
         {
-            //UpdateScroll();
-            CleanGens[Array.IndexOf(CleanGens,Building)].Built = true;
-            GameObject temp = Instantiate(b, b.transform.position, b.transform.rotation);
+            int Index;
+            if (Array.IndexOf(CleanGens, Building) >= 0)
+            {
+                Index = Array.IndexOf(CleanGens, Building);
+                CleanGens[Index].Built = true;
+            } else if (Array.IndexOf(PollutionGens, Building) >= 0)
+            {
+                Index = Array.IndexOf(PollutionGens, Building);
+                PollutionGens[Index].Built = true;
+            } else
+            {
+                Index = Array.IndexOf(PollutionCleaners, Building);
+                PollutionCleaners[Index].Built = true;
+            }
+            
+            GameObject temp = Instantiate(Prefab, Prefab.transform.position, Prefab.transform.rotation);
             GameObject BPanel = Building.Panel;
             temp.SetActive(true);
             temp.transform.SetParent(BPanel.transform);
@@ -297,9 +286,10 @@ namespace Main
             temp.transform.Find("BuyButton").GetComponent<Button>().onClick.AddListener(Building.AddOne);
             temp.transform.Find("BuyButton").GetComponent<Button>().onClick.AddListener(delegate { BuyBuilding(Building); });
             temp.transform.Find("BuyButton").GetComponent<Button>().onClick.AddListener(delegate { UpdateBuilding(thisBuildingPanel); });
-            temp.GetComponent<RectTransform>().localPosition = new Vector3(0f,130 - Counters[Panels.CurrentPanel.name]*130 + 75*IdkWhyThisHappens[Panels.CurrentPanel.name], 0);
+            int CounterThing = (int)Math.Ceiling( (Counters[Building.Panel.name]*130-630) / 200d) < 0 ? 0 : (int)Math.Ceiling( (Counters[Building.Panel.name]*130-630) / 200d);
+            temp.GetComponent<RectTransform>().localPosition = new Vector3(0f,250 - Counters[Building.Panel.name]*130 + 100*CounterThing, 0);
             AllBuildings.Add(thisBuildingPanel);
-            Counters[Panels.CurrentPanel.name]++;
+            Counters[Building.Panel.name]++;
             UpdateScroll();
         }
 
@@ -319,8 +309,6 @@ namespace Main
         void PerTenthSecond()
         {
             IsPaused = Pause.GetState();
-            //Power += IsPaused * PowerProduction / 10;
-
         }
         // Runs five times per second
         void PerFifthSecond()
@@ -332,8 +320,6 @@ namespace Main
         void EverySec()
         {
             Timer++;
-            // BuildBuilding(BuildingPrefab, SolarGen);
-            // BuildBuilding(BuildingPrefab, CoalGen);
 
         }
 
@@ -346,20 +332,6 @@ namespace Main
         {
             Power += IsPaused * PowerProduction * 2.5f;
         }
-
-        // Buttons
-        /*void BuyOneSolar()
-        {
-            SolarGenerators++;
-            Money -= SolarGeneratorCost;
-        }
-
-        void BuyOneCoal()
-        {
-            CoalGenerators++;
-            Pollution++;
-            Money -= CoalGeneratorCost;
-        }*/
         void BuyBuilding(Building building)
         {
             Money -= building.Cost;
@@ -372,7 +344,6 @@ namespace Main
 
         public void SellAllPower()
         {
-            UpdateScroll();
             int amount = (int)Power;
             Power = 0;
             Money += MoneyConversionRate * amount;
