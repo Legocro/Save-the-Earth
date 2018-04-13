@@ -84,7 +84,7 @@ namespace Main
         }
         void Start()
         {
-            BuildBuildings(PollutionGens[0], CleanGens[0]);
+            BuildBuildings(PollutionGens[0], CleanGens[0], PollutionCleaners[0]);
         }
 
         //  Update is called once per frame
@@ -142,7 +142,7 @@ namespace Main
                 case Headers.CURRENCY:
                     return string.Format("Power: {0} Money: ${1} Pollution: {2}%", values[0], values[1], values[2]);
                 case Headers.PREMIUM:
-                    return string.Format("SuperMoney: ${0}", values[0]);
+                    return string.Format("SuperMoney: €{0}", values[0]);
                 case Headers.MONEY:
                     return string.Format("1 Power = {0} Money", values[0]);
                 case Headers.TIMER:
@@ -165,13 +165,14 @@ namespace Main
             PremiumCurrency = 0;
             MaxPowerEarned = 0;
             PremiumConversionRate = 0.5f;
-            MinimumPowerFlag = 10000f;
-            DoubleMoneyCost = 100;
+            MinimumPowerFlag = 100000f;
+            DoubleMoneyCost = 10000;
             DoubleMoneyBought = false;
-            MoneyConversionRate = 0.5f;
+            MoneyConversionRate = 0.05f;
             ConvertUnlocked = false;
             CleanGens = Data.CleanEnList;
             PollutionGens = Data.PollEnList;
+            PollutionCleaners = Data.PollClList;
       }
 
         void SetAllText()
