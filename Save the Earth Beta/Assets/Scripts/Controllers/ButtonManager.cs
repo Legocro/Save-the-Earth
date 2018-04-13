@@ -17,6 +17,7 @@ namespace Main
         public Button RightLightningButton;
         private FrameUpdate FrameScript;
         private LightningPanel LightningPanelScript;
+        public bool IsPremium = false;
 
         // Use this for initialization
         void Start()
@@ -33,7 +34,10 @@ namespace Main
         }
         void InitButtons()
         {
-            SellAllPowerButton.onClick.AddListener(FrameScript.SellAllPower);
+            if (IsPremium)
+            {
+                SellAllPowerButton.onClick.AddListener(FrameScript.SellAllPower);
+            }
             SellPowerButton.onClick.AddListener(FrameScript.SellPower);
             ConvertCurrencyButton.onClick.AddListener(FrameScript.ConvertCurrency);
             DoubleMoneyButton.onClick.AddListener(FrameScript.DoubleMoney);

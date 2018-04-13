@@ -1,7 +1,7 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2008
-
-Project("{95E6EF52-8324-EEB3-CC04-62DF48EAE979}") = "Save the Earth Beta", "Assembly-CSharp.csproj", "{5D59B749-E19D-E30F-0E8A-97C2DB4C4662}"
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Save the Earth Beta", "Save the Earth Beta.csproj", "{38C34D8A-125D-A12F-3141-279575661103}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,15 +9,12 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5D59B749-E19D-E30F-0E8A-97C2DB4C4662}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D59B749-E19D-E30F-0E8A-97C2DB4C4662}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D59B749-E19D-E30F-0E8A-97C2DB4C4662}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D59B749-E19D-E30F-0E8A-97C2DB4C4662}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38C34D8A-125D-A12F-3141-279575661103}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38C34D8A-125D-A12F-3141-279575661103}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38C34D8A-125D-A12F-3141-279575661103}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38C34D8A-125D-A12F-3141-279575661103}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Assembly-CSharp.csproj
 	EndGlobalSection
 EndGlobal
