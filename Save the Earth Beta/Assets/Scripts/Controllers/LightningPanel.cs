@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Main;
 
-
 public class LightningPanel : MonoBehaviour {
 	
 	public Sprite Red;
@@ -21,6 +20,7 @@ public class LightningPanel : MonoBehaviour {
 	private GameObject[] Panels;
 	public GameObject CurrentPanel;
 	private FrameUpdate FrameScript;
+
 	// Use this for initialization
 	void Start () {
 		Sprites = new Sprite[] {Blue, Red, Purple};

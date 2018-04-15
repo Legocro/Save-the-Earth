@@ -16,7 +16,7 @@ namespace Main
         // Use this for initialization
         void Start()
         {
-            ClosePremiumMenu();
+          //  ClosePremiumMenu();
         }
 
         // Update is called once per frame
@@ -29,7 +29,10 @@ namespace Main
         {
             SceneManager.LoadScene("Game");
         }
-
+        public void MainMenu()
+        {
+            SceneManager.LoadScene("StartMenu");
+        }
         public void ExitGame()
         {
             Application.Quit();
@@ -44,14 +47,12 @@ namespace Main
             PausePanel.SetActive(true);
             IsPaused = 0;
         }
-
         public void UnpauseGame()
         {
             PauseTint.SetActive(false);
             PausePanel.SetActive(false);
             IsPaused = 1;
         }
-
         public void OpenPremiumMenu()
         {
             PremiumPanel.SetActive(true);

@@ -17,12 +17,14 @@ namespace Main
         public Button RightLightningButton;
         private FrameUpdate FrameScript;
         private LightningPanel LightningPanelScript;
-        public bool IsPremium = false;
-
+        public bool IsPremium = false; 
         // Use this for initialization
-        void Start()
+        private void Awake()
         {
             FrameScript = GetComponent<FrameUpdate>();
+        }
+        void Start()
+        {
             LightningPanelScript = GetComponent<LightningPanel>();
             InitButtons();
         }
@@ -30,7 +32,7 @@ namespace Main
         // Update is called once per frame
         void Update()
         {
-           CheckCosts();
+            CheckCosts();
         }
         void InitButtons()
         {
@@ -72,6 +74,11 @@ namespace Main
             {
                 SellPowerButton.interactable = false;
             }
+        }
+
+        public void FuckOff()
+        {
+            FrameScript.Power = 50f;
         }
     }
 
